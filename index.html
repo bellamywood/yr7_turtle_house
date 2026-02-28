@@ -663,28 +663,185 @@
     </div>
   </div>
 
-  <!-- ══ TASK 5: PROCEDURES ══ -->
+  <!-- ══ TASK 5: COMMAND MATCH ══ -->
   <div class="section-card">
     <div class="section-header task-5">
       <div class="section-num">5</div>
-      <div class="section-title"><h2>Procedures 🔧</h2><p>Refactor your code — wrap each part in a named procedure</p></div>
+      <div class="section-title"><h2>Command Match 🎯</h2><p>Match each command to what it does — click one from each column</p></div>
     </div>
     <div class="section-body">
+
       <div class="task-intro">
-        Last lesson you learnt that <strong>repeat</strong> cuts down repeated code. <strong>Procedures</strong> go one step further — you give a chunk of code a name and call it whenever you need it. This is called <strong>refactoring</strong>.
+        You've learnt a lot of Turtle commands! Can you remember what they all do?
+        <strong>Click a command on the left, then click its match on the right.</strong>
+        Get all 6 right to unlock the next task! 🔓
       </div>
 
-      <div class="code-block">
-        <span class="comment">; Template for a procedure:</span><br>
-        <span class="keyword">to</span> <span style="color:#dcdcaa">procedurename</span><br>
-        &nbsp; <span class="comment">; your code goes here</span><br>
-        <span class="keyword">end</span><br><br>
-        <span class="comment">; Call it by just typing its name:</span><br>
-        <span style="color:#dcdcaa">procedurename</span>
+      <!-- score bar -->
+      <div style="display:flex; align-items:center; gap:1rem; margin:.8rem 0 1.2rem;">
+        <span style="font-weight:800; font-size:.9rem; color:var(--dark);">Progress:</span>
+        <div style="flex:1; background:#e9ecef; border-radius:20px; height:12px; overflow:hidden;">
+          <div id="match-bar" style="height:100%; border-radius:20px; background:linear-gradient(90deg,var(--teal),var(--green)); width:0%; transition:width .4s ease;"></div>
+        </div>
+        <span id="match-count" style="font-family:'Fredoka One',cursive; font-size:1rem; color:var(--green); min-width:40px;">0/6</span>
+      </div>
+
+      <!-- matching grid -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:.7rem;" id="match-grid">
+
+        <!-- LEFT: commands (code style) -->
+        <div style="display:flex; flex-direction:column; gap:.6rem;">
+          <div style="font-family:'Fredoka One',cursive; font-size:.85rem; color:#6c757d; text-align:center; padding:.3rem 0; letter-spacing:.5px;">COMMANDS</div>
+          <div class="mtile left" data-id="1" onclick="selectTile(this)"><code>print pos</code></div>
+          <div class="mtile left" data-id="2" onclick="selectTile(this)"><code>print heading</code></div>
+          <div class="mtile left" data-id="3" onclick="selectTile(this)"><code>label "turtle</code></div>
+          <div class="mtile left" data-id="4" onclick="selectTile(this)"><code>setlabelfont</code></div>
+          <div class="mtile left" data-id="5" onclick="selectTile(this)"><code>repeat 8 [fd 70 lt 45]</code></div>
+          <div class="mtile left" data-id="6" onclick="selectTile(this)"><code>repeat 4 [fd 100 lt 90]</code></div>
+        </div>
+
+        <!-- RIGHT: descriptions -->
+        <div style="display:flex; flex-direction:column; gap:.6rem;">
+          <div style="font-family:'Fredoka One',cursive; font-size:.85rem; color:#6c757d; text-align:center; padding:.3rem 0; letter-spacing:.5px;">WHAT IT DOES</div>
+          <div class="mtile right" data-id="4" onclick="selectTile(this)">Changes the size or style of a text label</div>
+          <div class="mtile right" data-id="6" onclick="selectTile(this)">Draws a ⬜ square</div>
+          <div class="mtile right" data-id="1" onclick="selectTile(this)">Shows the turtle's current coordinates on screen</div>
+          <div class="mtile right" data-id="5" onclick="selectTile(this)">Draws a 🔷 octagon</div>
+          <div class="mtile right" data-id="2" onclick="selectTile(this)">Shows which direction the turtle is facing</div>
+          <div class="mtile right" data-id="3" onclick="selectTile(this)">Adds a text label next to the turtle</div>
+        </div>
+
+      </div>
+
+      <!-- celebration -->
+      <div id="match-win" style="display:none; text-align:center; background:linear-gradient(135deg,var(--green),var(--teal)); border-radius:14px; padding:1.5rem; margin-top:1.2rem; animation: popIn .4s ease;">
+        <div style="font-size:2.5rem;">🏆</div>
+        <div style="font-family:'Fredoka One',cursive; font-size:1.5rem; color:#fff; margin:.3rem 0;">All matched!</div>
+        <div style="color:rgba(255,255,255,.85); font-size:.9rem;">You know your Turtle commands — now put them to use in the extension! 🐢</div>
+        <button onclick="resetMatch()" style="margin-top:.8rem; background:rgba(255,255,255,.2); border:2px solid rgba(255,255,255,.5); border-radius:8px; color:#fff; font-family:'Nunito',sans-serif; font-weight:800; font-size:.85rem; padding:.4rem 1.2rem; cursor:pointer;">↩ Play again</button>
       </div>
 
     </div>
   </div>
+
+  <style>
+    @keyframes popIn { from { transform:scale(.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+    @keyframes shake  { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    @keyframes lockIn { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+
+    .mtile {
+      border-radius: 10px;
+      padding: .7rem 1rem;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, transform .15s;
+      border: 2px solid #dee2e6;
+      font-weight: 600;
+      line-height: 1.4;
+      user-select: none;
+    }
+    .mtile.left {
+      background: var(--code-bg);
+      border-color: #2d4a3e;
+    }
+    .mtile.left code {
+      font-family: 'Courier New', monospace;
+      font-size: .9rem;
+      color: var(--code-fg);
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .mtile.right {
+      background: #fff;
+      color: var(--dark);
+      border-color: #dee2e6;
+    }
+    .mtile:not(.locked):hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(46,196,182,.2);
+    }
+    .mtile.selected {
+      border-color: var(--amber) !important;
+      box-shadow: 0 0 0 3px rgba(244,162,97,.35);
+      transform: translateY(-2px);
+    }
+    .mtile.locked {
+      border-color: var(--green) !important;
+      background: #e8f5ee !important;
+      cursor: default;
+      animation: lockIn .3s ease;
+      position: relative;
+    }
+    .mtile.locked.left {
+      background: #1a3d2b !important;
+      border-color: var(--green) !important;
+    }
+    .mtile.locked::after {
+      content: "✓";
+      position: absolute;
+      top: 4px; right: 8px;
+      font-size: .75rem;
+      color: var(--green);
+      font-weight: 900;
+    }
+    .mtile.wrong {
+      border-color: #e76f51 !important;
+      animation: shake .4s ease;
+    }
+  </style>
+
+  <script>
+    (function() {
+      let selectedLeft = null, selectedRight = null, matched = 0;
+
+      window.selectTile = function(tile) {
+        if (tile.classList.contains('locked')) return;
+
+        const side = tile.classList.contains('left') ? 'left' : 'right';
+
+        // deselect same-side previous
+        document.querySelectorAll('.mtile.' + side + '.selected').forEach(t => t.classList.remove('selected'));
+
+        tile.classList.add('selected');
+        if (side === 'left')  selectedLeft  = tile;
+        else                  selectedRight = tile;
+
+        if (selectedLeft && selectedRight) {
+          const match = selectedLeft.dataset.id === selectedRight.dataset.id;
+
+          if (match) {
+            selectedLeft.classList.add('locked');
+            selectedRight.classList.add('locked');
+            selectedLeft.classList.remove('selected');
+            selectedRight.classList.remove('selected');
+            matched++;
+            document.getElementById('match-bar').style.width = (matched / 6 * 100) + '%';
+            document.getElementById('match-count').textContent = matched + '/6';
+            if (matched === 6) setTimeout(() => { document.getElementById('match-win').style.display = 'block'; }, 300);
+          } else {
+            const l = selectedLeft, r = selectedRight;
+            l.classList.add('wrong'); r.classList.add('wrong');
+            setTimeout(() => {
+              l.classList.remove('selected','wrong');
+              r.classList.remove('selected','wrong');
+            }, 450);
+          }
+          selectedLeft = null; selectedRight = null;
+        }
+      };
+
+      window.resetMatch = function() {
+        matched = 0;
+        selectedLeft = null; selectedRight = null;
+        document.querySelectorAll('.mtile').forEach(t => t.classList.remove('locked','selected','wrong'));
+        document.getElementById('match-bar').style.width = '0%';
+        document.getElementById('match-count').textContent = '0/6';
+        document.getElementById('match-win').style.display = 'none';
+      };
+    })();
+  </script>
 
   <!-- ══ EXTENSION ══ -->
   <div class="section-card">
@@ -694,37 +851,165 @@
     </div>
     <div class="section-body">
       <div class="task-intro">
-        <strong>Challenge:</strong> Turn your house into a full scene. Add elements below — each as its own procedure — then combine them with your <code>house</code> procedure.
+        <strong>Challenge:</strong> Turn your house into a full scene by adding the elements below in Turtle Academy. Before you do, complete the <strong>Refactor Challenge</strong> — can you spot the pattern in each block of messy code and shrink it down to a single <code>repeat</code>?
       </div>
 
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1rem 0;">
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1rem 0 1.5rem;">
         <div style="border-radius:10px; padding:1rem; background:var(--light); text-align:center; font-size:.9rem;">
-          🌳 <strong>Tree</strong><br><small>Brown trunk (rectangle) + green circle (repeat 360 [fd 1 rt 1])</small>
+          🌳 <strong>Tree</strong><br><small>Rectangle trunk + <code>repeat 360 [fd 1 rt 1]</code></small>
         </div>
         <div style="border-radius:10px; padding:1rem; background:#fff3cd; text-align:center; font-size:.9rem;">
-          ☀️ <strong>Sun</strong><br><small>Use repeat 36 [fd 5 rt 10] for a circle with rays</small>
+          ☀️ <strong>Sun</strong><br><small><code>repeat 36 [fd 5 rt 10]</code> for a circle</small>
         </div>
         <div style="border-radius:10px; padding:1rem; background:#f8d7da; text-align:center; font-size:.9rem;">
-          🌸 <strong>Flowers</strong><br><small>Repeat a petal shape using a procedure + repeat</small>
+          🌸 <strong>Flowers</strong><br><small>Try repeating a petal shape</small>
         </div>
         <div style="border-radius:10px; padding:1rem; background:#d4edda; text-align:center; font-size:.9rem;">
           🏡 <strong>Garden path</strong><br><small>Rectangles leading to the door</small>
         </div>
         <div style="border-radius:10px; padding:1rem; background:#cce5ff; text-align:center; font-size:.9rem;">
-          ☁️ <strong>Clouds</strong><br><small>Overlapping circles using PU to reposition</small>
+          ☁️ <strong>Clouds</strong><br><small>Overlapping circles with PU/PD</small>
         </div>
         <div style="border-radius:10px; padding:1rem; background:#e2d9f3; text-align:center; font-size:.9rem;">
-          🚗 <strong>Car</strong><br><small>Two rectangles + two circles (wheels)</small>
+          🚗 <strong>Car</strong><br><small>Two rectangles + two circles</small>
         </div>
       </div>
 
-      <div class="scaffold" style="border-color:#7f8c8d; background:#f8f9fa;">
-        <h3 style="color:#495057;">🧠 Extension Planning</h3>
-        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
-        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
-        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
-        <input class="write-line" type="text" placeholder="My 'scene' procedure will call: house, ___, ___, ___">
+      <!-- ── REFACTOR CHALLENGE ── -->
+      <div style="background:var(--code-bg); border-radius:14px; padding:1.3rem 1.5rem; margin-bottom:.5rem;">
+        <div style="font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--teal); margin-bottom:1rem;">✂️ Refactor Challenge — squash the bloat!</div>
+
+        <!-- Challenge 1 -->
+        <div class="rf-challenge" id="rf1">
+          <div class="rf-label">Challenge 1 — a familiar shape 🟩</div>
+          <div class="rf-ugly"><span class="rf-cmd">fd</span> <span class="rf-num">100</span> <span class="rf-cmd">rt</span> <span class="rf-num">90</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">100</span> <span class="rf-cmd">rt</span> <span class="rf-num">90</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">100</span> <span class="rf-cmd">rt</span> <span class="rf-num">90</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">100</span> <span class="rf-cmd">rt</span> <span class="rf-num">90</span></div>
+          <div class="rf-arrow">↓ &nbsp;refactor it &nbsp;↓</div>
+          <div class="rf-row">
+            <span class="rf-cmd">repeat</span>
+            <input class="rf-input" id="rf1-a" maxlength="3" placeholder="?">
+            <span class="rf-punct">[</span>
+            <span class="rf-cmd">fd</span>
+            <input class="rf-input" id="rf1-b" maxlength="4" placeholder="?">
+            <span class="rf-cmd">rt</span>
+            <input class="rf-input" id="rf1-c" maxlength="4" placeholder="?">
+            <span class="rf-punct">]</span>
+            <button class="rf-btn" onclick="checkRf(1,[['rf1-a','4'],['rf1-b','100'],['rf1-c','90']])">Check ✔</button>
+          </div>
+          <div class="rf-feedback" id="rf1-fb"></div>
+        </div>
+
+        <!-- Challenge 2 -->
+        <div class="rf-challenge" id="rf2">
+          <div class="rf-label">Challenge 2 — pointy! 🔺</div>
+          <div class="rf-ugly"><span class="rf-cmd">fd</span> <span class="rf-num">80</span> <span class="rf-cmd">rt</span> <span class="rf-num">120</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">80</span> <span class="rf-cmd">rt</span> <span class="rf-num">120</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">80</span> <span class="rf-cmd">rt</span> <span class="rf-num">120</span></div>
+          <div class="rf-arrow">↓ &nbsp;refactor it &nbsp;↓</div>
+          <div class="rf-row">
+            <span class="rf-cmd">repeat</span>
+            <input class="rf-input" id="rf2-a" maxlength="3" placeholder="?">
+            <span class="rf-punct">[</span>
+            <span class="rf-cmd">fd</span>
+            <input class="rf-input" id="rf2-b" maxlength="4" placeholder="?">
+            <span class="rf-cmd">rt</span>
+            <input class="rf-input" id="rf2-c" maxlength="4" placeholder="?">
+            <span class="rf-punct">]</span>
+            <button class="rf-btn" onclick="checkRf(2,[['rf2-a','3'],['rf2-b','80'],['rf2-c','120']])">Check ✔</button>
+          </div>
+          <div class="rf-feedback" id="rf2-fb"></div>
+        </div>
+
+        <!-- Challenge 3 -->
+        <div class="rf-challenge" id="rf3">
+          <div class="rf-label">Challenge 3 — count carefully! 🔷</div>
+          <div class="rf-ugly"><span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span> &nbsp;<span class="rf-cmd">fd</span> <span class="rf-num">70</span> <span class="rf-cmd">lt</span> <span class="rf-num">45</span></div>
+          <div class="rf-arrow">↓ &nbsp;refactor it &nbsp;↓</div>
+          <div class="rf-row">
+            <span class="rf-cmd">repeat</span>
+            <input class="rf-input" id="rf3-a" maxlength="3" placeholder="?">
+            <span class="rf-punct">[</span>
+            <span class="rf-cmd">fd</span>
+            <input class="rf-input" id="rf3-b" maxlength="4" placeholder="?">
+            <span class="rf-cmd">lt</span>
+            <input class="rf-input" id="rf3-c" maxlength="4" placeholder="?">
+            <span class="rf-punct">]</span>
+            <button class="rf-btn" onclick="checkRf(3,[['rf3-a','8'],['rf3-b','70'],['rf3-c','45']])">Check ✔</button>
+          </div>
+          <div class="rf-feedback" id="rf3-fb"></div>
+        </div>
+
+        <!-- all-done banner -->
+        <div id="rf-win" style="display:none; text-align:center; background:linear-gradient(135deg, #1a3d2b, var(--green)); border-radius:10px; padding:1.2rem; margin-top:1rem; animation:popIn .4s ease;">
+          <div style="font-size:2rem;">🎉</div>
+          <div style="font-family:'Fredoka One',cursive; font-size:1.3rem; color:#fff; margin:.2rem 0;">Refactoring complete!</div>
+          <div style="color:rgba(255,255,255,.8); font-size:.85rem;">3 lines of repeat instead of 15 lines of bloat. That's the power of refactoring. Now go build that scene! 🐢</div>
+        </div>
       </div>
+
+      <style>
+        .rf-challenge { margin-bottom:1.3rem; padding-bottom:1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
+        .rf-challenge:last-of-type { border-bottom:none; margin-bottom:.5rem; }
+        .rf-label { font-family:'Fredoka One',cursive; font-size:.95rem; color:var(--amber); margin-bottom:.5rem; }
+        .rf-ugly {
+          font-family:'Courier New',monospace; font-size:.85rem; line-height:2;
+          background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15);
+          border-radius:8px; padding:.6rem .9rem; margin-bottom:.5rem;
+          word-break:break-all; color:#adb5bd;
+        }
+        .rf-cmd  { color:#c586c0; }
+        .rf-num  { color:#b5cea8; }
+        .rf-punct{ color:var(--teal); font-family:'Courier New',monospace; font-size:1rem; }
+        .rf-arrow{ color:rgba(255,255,255,.3); font-size:.8rem; text-align:center; margin:.3rem 0; letter-spacing:2px; }
+        .rf-row  { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin-top:.4rem; font-family:'Courier New',monospace; }
+        .rf-input {
+          width:54px; padding:.35rem .4rem; border-radius:6px;
+          border:2px solid rgba(46,196,182,.4); background:rgba(255,255,255,.07);
+          color:var(--code-fg); font-family:'Courier New',monospace; font-size:.95rem;
+          text-align:center; outline:none; transition:border-color .2s;
+        }
+        .rf-input:focus { border-color:var(--teal); }
+        .rf-input.rf-ok    { border-color:var(--green) !important; background:rgba(61,163,93,.15) !important; color:#7ee787; }
+        .rf-input.rf-wrong { border-color:#e76f51 !important; animation:shake .35s ease; }
+        .rf-btn {
+          background:var(--teal); border:none; border-radius:7px; color:#fff;
+          font-family:'Nunito',sans-serif; font-weight:800; font-size:.82rem;
+          padding:.35rem .9rem; cursor:pointer; transition:background .2s; margin-left:.3rem;
+        }
+        .rf-btn:hover { background:#26a69a; }
+        .rf-btn:disabled { background:#495057; cursor:default; }
+        .rf-feedback { font-size:.82rem; font-weight:700; margin-top:.4rem; min-height:1.2rem; }
+        .rf-feedback.ok  { color:#7ee787; }
+        .rf-feedback.err { color:#e76f51; }
+      </style>
+
+      <script>
+        (function(){
+          let rfDone = 0;
+          window.checkRf = function(n, pairs) {
+            let allOk = true;
+            pairs.forEach(([id, answer]) => {
+              const el = document.getElementById(id);
+              const val = el.value.trim();
+              if (val === answer) {
+                el.classList.add('rf-ok'); el.classList.remove('rf-wrong');
+              } else {
+                el.classList.add('rf-wrong'); el.classList.remove('rf-ok');
+                allOk = false;
+                setTimeout(() => el.classList.remove('rf-wrong'), 400);
+              }
+            });
+            const fb = document.getElementById('rf' + n + '-fb');
+            if (allOk) {
+              fb.className = 'rf-feedback ok';
+              fb.textContent = '✅ Spot on! Same result, way less code.';
+              document.querySelector('#rf' + n + ' .rf-btn').disabled = true;
+              rfDone++;
+              if (rfDone === 3) setTimeout(() => { document.getElementById('rf-win').style.display = 'block'; }, 350);
+            } else {
+              fb.className = 'rf-feedback err';
+              fb.textContent = '❌ Not quite — count the repeats and check your numbers.';
+            }
+          };
+        })();
+      </script>
     </div>
   </div>
 
