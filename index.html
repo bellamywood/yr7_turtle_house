@@ -843,41 +843,20 @@
     })();
   </script>
 
-  <!-- ══ EXTENSION ══ -->
+  <!-- ══ TASK 6: REFACTOR CHALLENGE ══ -->
   <div class="section-card">
-    <div class="section-header task-ext">
-      <div class="section-num">⭐</div>
-      <div class="section-title"><h2>Extension: Garden Scene 🌳☀️</h2><p>If you finish everything — design your own scene</p></div>
+    <div class="section-header" style="background: linear-gradient(90deg, #e67e22, #d35400);">
+      <div class="section-num">6</div>
+      <div class="section-title"><h2>Refactor Challenge ✂️</h2><p>Spot the pattern — squash the bloat down to one repeat</p></div>
     </div>
     <div class="section-body">
+
       <div class="task-intro">
-        <strong>Challenge:</strong> Turn your house into a full scene by adding the elements below in Turtle Academy. Before you do, complete the <strong>Refactor Challenge</strong> — can you spot the pattern in each block of messy code and shrink it down to a single <code>repeat</code>?
+        Each block of code below is doing the same thing over and over. Can you <strong>spot the repeating pattern</strong> and shrink it down to a single <code>repeat</code> command?
       </div>
 
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1rem 0 1.5rem;">
-        <div style="border-radius:10px; padding:1rem; background:var(--light); text-align:center; font-size:.9rem;">
-          🌳 <strong>Tree</strong><br><small>Rectangle trunk + <code>repeat 360 [fd 1 rt 1]</code></small>
-        </div>
-        <div style="border-radius:10px; padding:1rem; background:#fff3cd; text-align:center; font-size:.9rem;">
-          ☀️ <strong>Sun</strong><br><small><code>repeat 36 [fd 5 rt 10]</code> for a circle</small>
-        </div>
-        <div style="border-radius:10px; padding:1rem; background:#f8d7da; text-align:center; font-size:.9rem;">
-          🌸 <strong>Flowers</strong><br><small>Try repeating a petal shape</small>
-        </div>
-        <div style="border-radius:10px; padding:1rem; background:#d4edda; text-align:center; font-size:.9rem;">
-          🏡 <strong>Garden path</strong><br><small>Rectangles leading to the door</small>
-        </div>
-        <div style="border-radius:10px; padding:1rem; background:#cce5ff; text-align:center; font-size:.9rem;">
-          ☁️ <strong>Clouds</strong><br><small>Overlapping circles with PU/PD</small>
-        </div>
-        <div style="border-radius:10px; padding:1rem; background:#e2d9f3; text-align:center; font-size:.9rem;">
-          🚗 <strong>Car</strong><br><small>Two rectangles + two circles</small>
-        </div>
-      </div>
-
-      <!-- ── REFACTOR CHALLENGE ── -->
-      <div style="background:var(--code-bg); border-radius:14px; padding:1.3rem 1.5rem; margin-bottom:.5rem;">
-        <div style="font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--teal); margin-bottom:1rem;">✂️ Refactor Challenge — squash the bloat!</div>
+      <div style="background:var(--code-bg); border-radius:14px; padding:1.3rem 1.5rem;">
+        <div style="font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--teal); margin-bottom:1rem;">Fill in the blanks to refactor each one 👇</div>
 
         <!-- Challenge 1 -->
         <div class="rf-challenge" id="rf1">
@@ -944,72 +923,107 @@
         </div>
       </div>
 
-      <style>
-        .rf-challenge { margin-bottom:1.3rem; padding-bottom:1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
-        .rf-challenge:last-of-type { border-bottom:none; margin-bottom:.5rem; }
-        .rf-label { font-family:'Fredoka One',cursive; font-size:.95rem; color:var(--amber); margin-bottom:.5rem; }
-        .rf-ugly {
-          font-family:'Courier New',monospace; font-size:.85rem; line-height:2;
-          background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15);
-          border-radius:8px; padding:.6rem .9rem; margin-bottom:.5rem;
-          word-break:break-all; color:#adb5bd;
-        }
-        .rf-cmd  { color:#c586c0; }
-        .rf-num  { color:#b5cea8; }
-        .rf-punct{ color:var(--teal); font-family:'Courier New',monospace; font-size:1rem; }
-        .rf-arrow{ color:rgba(255,255,255,.3); font-size:.8rem; text-align:center; margin:.3rem 0; letter-spacing:2px; }
-        .rf-row  { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin-top:.4rem; font-family:'Courier New',monospace; }
-        .rf-input {
-          width:54px; padding:.35rem .4rem; border-radius:6px;
-          border:2px solid rgba(46,196,182,.4); background:rgba(255,255,255,.07);
-          color:var(--code-fg); font-family:'Courier New',monospace; font-size:.95rem;
-          text-align:center; outline:none; transition:border-color .2s;
-        }
-        .rf-input:focus { border-color:var(--teal); }
-        .rf-input.rf-ok    { border-color:var(--green) !important; background:rgba(61,163,93,.15) !important; color:#7ee787; }
-        .rf-input.rf-wrong { border-color:#e76f51 !important; animation:shake .35s ease; }
-        .rf-btn {
-          background:var(--teal); border:none; border-radius:7px; color:#fff;
-          font-family:'Nunito',sans-serif; font-weight:800; font-size:.82rem;
-          padding:.35rem .9rem; cursor:pointer; transition:background .2s; margin-left:.3rem;
-        }
-        .rf-btn:hover { background:#26a69a; }
-        .rf-btn:disabled { background:#495057; cursor:default; }
-        .rf-feedback { font-size:.82rem; font-weight:700; margin-top:.4rem; min-height:1.2rem; }
-        .rf-feedback.ok  { color:#7ee787; }
-        .rf-feedback.err { color:#e76f51; }
-      </style>
+    </div>
+  </div>
 
-      <script>
-        (function(){
-          let rfDone = 0;
-          window.checkRf = function(n, pairs) {
-            let allOk = true;
-            pairs.forEach(([id, answer]) => {
-              const el = document.getElementById(id);
-              const val = el.value.trim();
-              if (val === answer) {
-                el.classList.add('rf-ok'); el.classList.remove('rf-wrong');
-              } else {
-                el.classList.add('rf-wrong'); el.classList.remove('rf-ok');
-                allOk = false;
-                setTimeout(() => el.classList.remove('rf-wrong'), 400);
-              }
-            });
-            const fb = document.getElementById('rf' + n + '-fb');
-            if (allOk) {
-              fb.className = 'rf-feedback ok';
-              fb.textContent = '✅ Spot on! Same result, way less code.';
-              document.querySelector('#rf' + n + ' .rf-btn').disabled = true;
-              rfDone++;
-              if (rfDone === 3) setTimeout(() => { document.getElementById('rf-win').style.display = 'block'; }, 350);
-            } else {
-              fb.className = 'rf-feedback err';
-              fb.textContent = '❌ Not quite — count the repeats and check your numbers.';
-            }
-          };
-        })();
-      </script>
+  <style>
+    .rf-challenge { margin-bottom:1.3rem; padding-bottom:1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
+    .rf-challenge:last-of-type { border-bottom:none; margin-bottom:.5rem; }
+    .rf-label { font-family:'Fredoka One',cursive; font-size:.95rem; color:var(--amber); margin-bottom:.5rem; }
+    .rf-ugly {
+      font-family:'Courier New',monospace; font-size:.85rem; line-height:2;
+      background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15);
+      border-radius:8px; padding:.6rem .9rem; margin-bottom:.5rem;
+      word-break:break-all; color:#adb5bd;
+    }
+    .rf-cmd  { color:#c586c0; }
+    .rf-num  { color:#b5cea8; }
+    .rf-punct{ color:var(--teal); font-family:'Courier New',monospace; font-size:1rem; }
+    .rf-arrow{ color:rgba(255,255,255,.3); font-size:.8rem; text-align:center; margin:.3rem 0; letter-spacing:2px; }
+    .rf-row  { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin-top:.4rem; font-family:'Courier New',monospace; }
+    .rf-input {
+      width:54px; padding:.35rem .4rem; border-radius:6px;
+      border:2px solid rgba(46,196,182,.4); background:rgba(255,255,255,.07);
+      color:var(--code-fg); font-family:'Courier New',monospace; font-size:.95rem;
+      text-align:center; outline:none; transition:border-color .2s;
+    }
+    .rf-input:focus { border-color:var(--teal); }
+    .rf-input.rf-ok    { border-color:var(--green) !important; background:rgba(61,163,93,.15) !important; color:#7ee787; }
+    .rf-input.rf-wrong { border-color:#e76f51 !important; animation:shake .35s ease; }
+    .rf-btn {
+      background:var(--teal); border:none; border-radius:7px; color:#fff;
+      font-family:'Nunito',sans-serif; font-weight:800; font-size:.82rem;
+      padding:.35rem .9rem; cursor:pointer; transition:background .2s; margin-left:.3rem;
+    }
+    .rf-btn:hover { background:#26a69a; }
+    .rf-btn:disabled { background:#495057; cursor:default; }
+    .rf-feedback { font-size:.82rem; font-weight:700; margin-top:.4rem; min-height:1.2rem; }
+    .rf-feedback.ok  { color:#7ee787; }
+    .rf-feedback.err { color:#e76f51; }
+  </style>
+
+  <script>
+    (function(){
+      let rfDone = 0;
+      window.checkRf = function(n, pairs) {
+        let allOk = true;
+        pairs.forEach(([id, answer]) => {
+          const el = document.getElementById(id);
+          const val = el.value.trim();
+          if (val === answer) {
+            el.classList.add('rf-ok'); el.classList.remove('rf-wrong');
+          } else {
+            el.classList.add('rf-wrong'); el.classList.remove('rf-ok');
+            allOk = false;
+            setTimeout(() => el.classList.remove('rf-wrong'), 400);
+          }
+        });
+        const fb = document.getElementById('rf' + n + '-fb');
+        if (allOk) {
+          fb.className = 'rf-feedback ok';
+          fb.textContent = '✅ Spot on! Same result, way less code.';
+          document.querySelector('#rf' + n + ' .rf-btn').disabled = true;
+          rfDone++;
+          if (rfDone === 3) setTimeout(() => { document.getElementById('rf-win').style.display = 'block'; }, 350);
+        } else {
+          fb.className = 'rf-feedback err';
+          fb.textContent = '❌ Not quite — count the repeats and check your numbers.';
+        }
+      };
+    })();
+  </script>
+
+  <!-- ══ EXTENSION ══ -->
+  <div class="section-card">
+    <div class="section-header task-ext">
+      <div class="section-num">⭐</div>
+      <div class="section-title"><h2>Extension: Garden Scene 🌳☀️</h2><p>If you finish everything — design your own scene</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        <strong>Challenge:</strong> Turn your house into a full scene by adding the elements below in Turtle Academy. Use what you know about <code>repeat</code> to keep your code clean!
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1rem 0;">
+        <div style="border-radius:10px; padding:1rem; background:var(--light); text-align:center; font-size:.9rem;">
+          🌳 <strong>Tree</strong><br><small>Rectangle trunk + <code>repeat 360 [fd 1 rt 1]</code></small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#fff3cd; text-align:center; font-size:.9rem;">
+          ☀️ <strong>Sun</strong><br><small><code>repeat 36 [fd 5 rt 10]</code> for a circle</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#f8d7da; text-align:center; font-size:.9rem;">
+          🌸 <strong>Flowers</strong><br><small>Try repeating a petal shape</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#d4edda; text-align:center; font-size:.9rem;">
+          🏡 <strong>Garden path</strong><br><small>Rectangles leading to the door</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#cce5ff; text-align:center; font-size:.9rem;">
+          ☁️ <strong>Clouds</strong><br><small>Overlapping circles with PU/PD</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#e2d9f3; text-align:center; font-size:.9rem;">
+          🚗 <strong>Car</strong><br><small>Two rectangles + two circles</small>
+        </div>
+      </div>
     </div>
   </div>
 
