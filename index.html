@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐢 Year 7 Turtle Academy — Build a House</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root {
+    --teal:   #2ec4b6;
+    --green:  #3da35d;
+    --amber:  #f4a261;
+    --red:    #e76f51;
+    --cream:  #fdf8f0;
+    --dark:   #1a2e2b;
+    --mid:    #4a7c59;
+    --light:  #e8f5ee;
+    --code-bg: #1e2d3d;
+    --code-fg: #7ee787;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  header .inner { max-width: 900px; margin: 0 auto; position: relative; }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: .85rem;
+    padding: .2rem .8rem;
+    border-radius: 20px;
+    margin-bottom: .6rem;
+    letter-spacing: .5px;
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: #fff;
+    line-height: 1.1;
+  }
+  header p {
+    color: rgba(255,255,255,.85);
+    font-size: 1rem;
+    margin-top: .4rem;
+    max-width: 600px;
+  }
+  .turtle-icon { font-size: 3rem; float: right; margin-top: -0.5rem; }
+
+  /* ── WRAPPER ── */
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* ── KO BOX ── */
+  .ko-box {
+    background: var(--light);
+    border-left: 5px solid var(--green);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .ko-box h2 {
+    font-family: 'Fredoka One', cursive;
+    color: var(--green);
+    font-size: 1.2rem;
+    margin-bottom: .6rem;
+  }
+  .ko-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin-top: .8rem; }
+  .ko-pill {
+    border-radius: 8px;
+    padding: .8rem 1rem;
+    font-size: .88rem;
+    font-weight: 700;
+  }
+  .ko-pill.all   { background: #d4edda; border-left: 4px solid #28a745; }
+  .ko-pill.most  { background: #fff3cd; border-left: 4px solid #ffc107; }
+  .ko-pill.some  { background: #f8d7da; border-left: 4px solid #dc3545; }
+  .ko-pill strong { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .2rem; opacity: .7; }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
+  .section-header.quiz-header { background: linear-gradient(90deg, #6f42c1, #9b59b6); }
+  .section-header.task-1      { background: linear-gradient(90deg, var(--teal), #26a69a); }
+  .section-header.task-2      { background: linear-gradient(90deg, var(--amber), #e67e22); }
+  .section-header.task-3      { background: linear-gradient(90deg, var(--red), #c0392b); }
+  .section-header.task-4      { background: linear-gradient(90deg, #2980b9, #1a5276); }
+  .section-header.task-5      { background: linear-gradient(90deg, var(--green), #1e8449); }
+  .section-header.task-ext    { background: linear-gradient(90deg, #7f8c8d, #2c3e50); }
+
+  .section-num {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .section-title { color: #fff; }
+  .section-title h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; line-height: 1.1; }
+  .section-title p  { font-size: .82rem; opacity: .85; margin-top: .1rem; }
+
+  .section-body { padding: 1.5rem; }
+
+  /* ── QUIZ ── */
+  .quiz-q {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .quiz-q p { font-weight: 700; margin-bottom: .6rem; font-size: .95rem; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .quiz-options label {
+    display: flex; align-items: center; gap: .5rem;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: .5rem .8rem;
+    cursor: pointer;
+    font-size: .9rem;
+    transition: all .2s;
+  }
+  .quiz-options label:hover { border-color: var(--teal); background: #f0fffe; }
+  .quiz-options input[type=radio] { accent-color: var(--teal); }
+  .feedback {
+    margin-top: .6rem;
+    font-weight: 700;
+    font-size: .88rem;
+    border-radius: 6px;
+    padding: .4rem .8rem;
+    display: none;
+  }
+  .feedback.correct { background: #d4edda; color: #155724; display: block; }
+  .feedback.wrong   { background: #f8d7da; color: #721c24; display: block; }
+
+  .quiz-btn {
+    background: #6f42c1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: .7rem 1.6rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: .5rem;
+    transition: background .2s;
+  }
+  .quiz-btn:hover { background: #5a32a3; }
+
+  #quiz-score {
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    display: none;
+  }
+
+  /* ── TASK BODY ── */
+  .task-intro {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    font-size: .93rem;
+  }
+  .task-intro strong { color: var(--green); }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--code-bg);
+    border-radius: 10px;
+    padding: 1rem 1.3rem;
+    font-family: 'Courier New', monospace;
+    font-size: .9rem;
+    color: var(--code-fg);
+    line-height: 1.8;
+    margin: .8rem 0;
+    position: relative;
+  }
+  .code-block .blank {
+    display: inline-block;
+    background: rgba(126,231,135,.15);
+    border: 2px dashed var(--code-fg);
+    border-radius: 4px;
+    min-width: 60px;
+    padding: 0 .3rem;
+    color: transparent;
+    vertical-align: middle;
+  }
+  .code-block .comment { color: #6a9955; }
+  .code-block .keyword { color: #c586c0; }
+  .code-block .num     { color: #b5cea8; }
+
+  /* ── SCAFFOLD ── */
+  .scaffold {
+    border: 2px dashed var(--teal);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin: 1rem 0;
+    background: #f0fffe;
+  }
+  .scaffold h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--teal);
+    margin-bottom: .8rem;
+  }
+  .write-line {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #b2dfdb;
+    background: transparent;
+    font-family: 'Courier New', monospace;
+    font-size: .95rem;
+    padding: .3rem .2rem;
+    color: var(--dark);
+    margin-bottom: .4rem;
+    outline: none;
+    transition: border-color .2s;
+    display: block;
+  }
+  .write-line:focus { border-bottom-color: var(--teal); }
+  .write-line::placeholder { color: #90ccc8; }
+
+  /* ── HINT BOX ── */
+  .hint-toggle {
+    background: none;
+    border: 2px solid var(--amber);
+    border-radius: 8px;
+    color: var(--amber);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .85rem;
+    padding: .4rem 1rem;
+    cursor: pointer;
+    margin-bottom: .5rem;
+    transition: all .2s;
+  }
+  .hint-toggle:hover { background: var(--amber); color: #fff; }
+  .hint-box {
+    background: #fff8e1;
+    border: 2px solid #ffe082;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: .88rem;
+    display: none;
+    margin-bottom: 1rem;
+  }
+  .hint-box.open { display: block; }
+  .hint-box code {
+    background: #fffde7;
+    border: 1px solid #f9a825;
+    border-radius: 4px;
+    padding: .1rem .4rem;
+    font-family: 'Courier New', monospace;
+    font-size: .88rem;
+  }
+
+  /* ── WORKED EXAMPLE ── */
+  details.worked {
+    border: 2px solid var(--green);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+  details.worked summary {
+    background: var(--light);
+    padding: .7rem 1rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--green);
+    list-style: none;
+  }
+  details.worked summary::before { content: "▶ "; }
+  details.worked[open] summary::before { content: "▼ "; }
+  details.worked .worked-body { padding: 1rem; }
+
+  /* ── VISUAL TARGET ── */
+  .visual-target {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .visual-target svg { max-width: 200px; }
+  .visual-target p { font-size: .8rem; color: #6c757d; margin-top: .3rem; }
+
+  /* ── COMMAND REF ── */
+  .cmd-ref {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+    margin: 1rem 0;
+  }
+  .cmd-ref table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .cmd-ref th { background: var(--dark); color: #fff; padding: .5rem .8rem; text-align: left; }
+  .cmd-ref td { padding: .45rem .8rem; border-bottom: 1px solid #dee2e6; }
+  .cmd-ref tr:last-child td { border-bottom: none; }
+  .cmd-ref tr:nth-child(even) td { background: var(--light); }
+  .cmd-ref code {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    border-radius: 4px;
+    padding: .1rem .4rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── ANGLE HELPER ── */
+  .angle-tip {
+    background: linear-gradient(135deg, #1a2e2b, #2e4e3a);
+    color: #fff;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-size: .9rem;
+    margin: .8rem 0;
+  }
+  .angle-tip .formula {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--teal);
+    text-align: center;
+    margin: .5rem 0;
+  }
+  .angle-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: .6rem; }
+  .angle-table th { color: var(--teal); padding: .3rem .6rem; text-align: center; }
+  .angle-table td { color: #e0e0e0; padding: .3rem .6rem; text-align: center; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    background: #e9ecef;
+    border-radius: 20px;
+    height: 10px;
+    margin: .4rem 0 1.2rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    width: 0%;
+    transition: width .4s ease;
+  }
+  .progress-label { font-size: .8rem; color: #6c757d; margin-bottom: .2rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.7rem; }
+    .turtle-icon { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="inner">
+    <div class="badge">Year 7 · Computing · Turtle Academy</div>
+    <div class="turtle-icon">🐢🏠</div>
+    <h1>Build a House with Turtle!</h1>
+    <p>Today you'll use everything you've learnt about Turtle commands to code a complete house scene step by step.</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══ LEARNING OBJECTIVES ══ -->
+  <div class="ko-box">
+    <h2>🎯 Today you will learn to…</h2>
+    <ul style="margin-top:.6rem; padding-left:1.4rem; line-height:2;">
+      <li>Use <strong>FD, RT, LT, BK, PU</strong> and <strong>PD</strong> to move the turtle and draw shapes</li>
+      <li>Use <strong>REPEAT</strong> to write shorter, cleaner code</li>
+      <li>Reposition the turtle using <strong>PU / PD</strong> to add details like a door and windows</li>
+      <li>Fill shapes with colour using <strong>FILLED</strong></li>
+      <li>Write named <strong>procedures</strong> (TO … END) and combine them into a full house program</li>
+    </ul>
+  </div>
+
+  <!-- ══ COMMAND REFERENCE ══ -->
+  <div class="section-card">
+    <div class="section-header" style="background: linear-gradient(90deg,#495057,#343a40);">
+      <div class="section-num">📋</div>
+      <div class="section-title"><h2>Command Reference</h2><p>Keep this open as you work today</p></div>
+    </div>
+    <div class="section-body">
+      <div class="cmd-ref">
+        <table>
+          <tr><th>Action</th><th>Command</th><th>Example</th></tr>
+          <tr><td>Move forward</td><td><code>FD x</code></td><td><code>FD 100</code></td></tr>
+          <tr><td>Move backward</td><td><code>BK x</code></td><td><code>BK 50</code></td></tr>
+          <tr><td>Turn right</td><td><code>RT x</code></td><td><code>RT 90</code></td></tr>
+          <tr><td>Turn left</td><td><code>LT x</code></td><td><code>LT 45</code></td></tr>
+          <tr><td>Lift pen (stop drawing)</td><td><code>PU</code></td><td><code>PU</code></td></tr>
+          <tr><td>Lower pen (start drawing)</td><td><code>PD</code></td><td><code>PD</code></td></tr>
+          <tr><td>Repeat commands x times</td><td><code>REPEAT x [...]</code></td><td><code>REPEAT 4 [FD 100 RT 90]</code></td></tr>
+          <tr><td>Set pen colour (number)</td><td><code>SETPENCOLOR x</code></td><td><code>SETPENCOLOR 4</code> (red)</td></tr>
+          <tr><td>Set fill colour and draw</td><td><code>FILLED "colour [...]</code></td><td><code>FILLED "blue [REPEAT 4 [FD 100 RT 90]]</code></td></tr>
+          <tr><td>Create a procedure</td><td><code>TO name ... END</code></td><td><code>TO walls ... END</code></td></tr>
+        </table>
+      </div>
+
+      <div class="angle-tip">
+        <strong>🔢 Exterior Angle Rule</strong> — use this to work out turn values for any shape:
+        <div class="formula">Turn = 360 ÷ number of sides</div>
+        <table class="angle-table">
+          <tr><th>Shape</th><th>Sides</th><th>Turn</th></tr>
+          <tr><td>Triangle</td><td>3</td><td>120°</td></tr>
+          <tr><td>Square</td><td>4</td><td>90°</td></tr>
+          <tr><td>Pentagon</td><td>5</td><td>72°</td></tr>
+          <tr><td>Hexagon</td><td>6</td><td>60°</td></tr>
+          <tr><td>Octagon</td><td>8</td><td>45°</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TASK 1: WALLS ══ -->
+  <div class="section-card">
+    <div class="section-header task-1">
+      <div class="section-num">1</div>
+      <div class="section-title"><h2>The Walls 🧱</h2><p>Draw the main body of the house — a square</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        A house starts with its <strong>walls</strong> — a simple square.<br>
+        The turtle will go forward 4 times, turning right each time to make the corners.
+      </div>
+
+      <div class="visual-target">
+        <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="100" height="100" fill="none" stroke="#2ec4b6" stroke-width="4"/>
+          <circle cx="30" cy="130" r="6" fill="#f4a261"/>
+          <text x="8" y="135" font-size="11" fill="#6c757d">start</text>
+        </svg>
+        <p>Your target: a square with side length 100 steps</p>
+      </div>
+
+      <p><strong>🧠 Plan it first:</strong> Without looking at the hint, write out the commands in plain English below.</p>
+      <div class="scaffold">
+        <h3>My Plan (English):</h3>
+        <input class="write-line" type="text" placeholder="Step 1: Move forward ...">
+        <input class="write-line" type="text" placeholder="Step 2: Turn right by ...">
+        <input class="write-line" type="text" placeholder="Step 3: ">
+        <input class="write-line" type="text" placeholder="Step 4: ">
+        <input class="write-line" type="text" placeholder="Step 5: ">
+      </div>
+
+      <p><strong>💻 Now write the Turtle code:</strong> Fill in the blanks.</p>
+      <div class="code-block">
+        <span class="comment">; Draw the walls of the house</span><br>
+        <span class="keyword">repeat</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> [ <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ]
+      </div>
+
+      <button class="hint-toggle" onclick="toggleHint('hint1')">💡 Hint</button>
+      <div class="hint-box" id="hint1">
+        A square has <strong>4</strong> sides. Each side is <strong>100</strong> steps. At each corner you turn <strong>90°</strong> to the right.<br>
+        Think: <code>repeat 4 [...]</code> — what goes inside?
+      </div>
+
+      <details class="worked">
+        <summary>🔓 Show Worked Answer (try first!)</summary>
+        <div class="worked-body">
+          <div class="code-block">
+            <span class="comment">; Walls</span><br>
+            <span class="keyword">repeat</span> <span class="num">4</span> [ <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">rt</span> <span class="num">90</span> ]
+          </div>
+          <p style="font-size:.88rem; color:#6c757d;">The exterior angle of a square = 360 ÷ 4 = 90°. The turtle repeats: go forward 100, turn right 90° — four times.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══ TASK 2: ROOF ══ -->
+  <div class="section-card">
+    <div class="section-header task-2">
+      <div class="section-num">2</div>
+      <div class="section-title"><h2>The Roof 🔺</h2><p>Add a triangle on top — and learn to reposition the turtle</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        The roof is a <strong>triangle</strong>. But you need to <strong>move the turtle to the right position first</strong> without drawing — use <strong>PU</strong> (pen up) to move, then <strong>PD</strong> (pen down) to start drawing again.
+      </div>
+
+      <div class="visual-target">
+        <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="80,20 30,90 130,90" fill="none" stroke="#f4a261" stroke-width="4"/>
+          <rect x="30" y="90" width="100" height="100" fill="none" stroke="#2ec4b6" stroke-width="4"/>
+          <circle cx="30" cy="190" r="5" fill="#f4a261"/>
+        </svg>
+        <p>Target: triangle sitting directly on top of the square</p>
+      </div>
+
+      <div class="angle-tip" style="margin-bottom:1rem;">
+        <strong>🔢 Roof triangle turn angle:</strong><br>
+        Triangle → 360 ÷ 3 = <strong>120°</strong> turn at each corner.
+      </div>
+
+      <p><strong>🤔 Think about it:</strong> After your walls code runs, where is the turtle and which way is it facing?</p>
+      <div class="scaffold">
+        <h3>My Thinking:</h3>
+        <input class="write-line" type="text" placeholder="After drawing the walls, the turtle is at...">
+        <input class="write-line" type="text" placeholder="To get to the top-left corner, I need to...">
+      </div>
+
+      <p><strong>💻 Complete the code</strong> — the walls are done, now add the roof:</p>
+      <div class="code-block">
+        <span class="comment">; Walls (already done)</span><br>
+        <span class="keyword">repeat</span> <span class="num">4</span> [ <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">rt</span> <span class="num">90</span> ]<br><br>
+        <span class="comment">; Move to top-left corner without drawing</span><br>
+        <span class="keyword">pu</span><br>
+        <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="comment"> ; move up one wall length</span><br>
+        <span class="keyword">pd</span><br><br>
+        <span class="comment">; Draw the roof triangle</span><br>
+        <span class="keyword">repeat</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> [ <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ]
+      </div>
+
+      <button class="hint-toggle" onclick="toggleHint('hint2')">💡 Hint</button>
+      <div class="hint-box" id="hint2">
+        Move up by the same distance as the wall height (<code>fd 100</code>). Then for the triangle: <code>repeat 3 [fd 100 rt 120]</code>. You might need to adjust your starting direction — experiment!
+      </div>
+
+      <details class="worked">
+        <summary>🔓 Show Worked Answer</summary>
+        <div class="worked-body">
+          <div class="code-block">
+            <span class="keyword">repeat</span> <span class="num">4</span> [ <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">rt</span> <span class="num">90</span> ]<br>
+            <span class="keyword">pu</span> <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">pd</span><br>
+            <span class="keyword">repeat</span> <span class="num">3</span> [ <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">rt</span> <span class="num">120</span> ]
+          </div>
+          <p style="font-size:.88rem;color:#6c757d;">PU lets you reposition the turtle without leaving a line. PD starts drawing again. The triangle exterior angle = 360 ÷ 3 = 120°.</p>
+        </div>
+      </details>
+
+      <div class="scaffold" style="border-color:#f4a261; background:#fffbf0;">
+        <h3 style="color:#e67e22;">✍️ Reflection</h3>
+        <input class="write-line" type="text" placeholder="Why do we need PU and PD when drawing a house?">
+        <input class="write-line" type="text" placeholder="What would happen if we forgot PU before moving?">
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TASK 3: DOOR & WINDOWS ══ -->
+  <div class="section-card">
+    <div class="section-header task-3">
+      <div class="section-num">3</div>
+      <div class="section-title"><h2>Door &amp; Windows 🚪🪟</h2><p>Use PU/PD to add details — practice repositioning the turtle</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        Now add a <strong>door</strong> (a tall rectangle) and <strong>two windows</strong> (small squares). Each time, you'll need to <strong>PU</strong> to move to the right spot, then <strong>PD</strong> to draw.
+      </div>
+
+      <div class="visual-target">
+        <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="80,15 25,85 135,85" fill="none" stroke="#f4a261" stroke-width="3"/>
+          <rect x="25" y="85" width="110" height="100" fill="none" stroke="#2ec4b6" stroke-width="3"/>
+          <rect x="70" y="145" width="25" height="40" fill="none" stroke="#e76f51" stroke-width="2.5"/>
+          <rect x="35" y="105" width="25" height="25" fill="none" stroke="#e76f51" stroke-width="2.5"/>
+          <rect x="100" y="105" width="25" height="25" fill="none" stroke="#e76f51" stroke-width="2.5"/>
+        </svg>
+        <p>Target: door in the centre, windows on each side</p>
+      </div>
+
+      <p><strong>Door sizes:</strong> width = 25 steps, height = 40 steps (a rectangle)<br>
+      <strong>Window sizes:</strong> width = height = 25 steps (a square)</p>
+
+      <p><strong>💻 Write the full code</strong> for door and windows. Add it to your house code:</p>
+      <div class="code-block">
+        <span class="comment">; === DOOR ===</span><br>
+        <span class="keyword">pu</span> <span class="comment">; lift pen, move to door position</span><br>
+        <span class="comment">; (adjust FD/RT values to position correctly)</span><br>
+        <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        <span class="keyword">pd</span> <span class="comment">; start drawing</span><br>
+        <span class="comment">; draw door rectangle:</span><br>
+        <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="num">90</span> <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="num">90</span> <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="num">90</span> <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br><br>
+        <span class="comment">; === WINDOW 1 ===</span><br>
+        <span class="keyword">pu</span> <span class="comment">; move to window position</span><br>
+        <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        <span class="keyword">pd</span><br>
+        <span class="keyword">repeat</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> [ <span class="keyword">fd</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="keyword">rt</span> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ]
+      </div>
+
+      <button class="hint-toggle" onclick="toggleHint('hint3')">💡 Hint</button>
+      <div class="hint-box" id="hint3">
+        For the <strong>door</strong> (rectangle): <code>fd 40 rt 90 fd 25 rt 90 fd 40 rt 90 fd 25</code><br>
+        For a <strong>window</strong> (square): <code>repeat 4 [fd 25 rt 90]</code><br>
+        Use PU + FD + RT to reposition between each shape. Experiment with the numbers to get the positioning right!
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ TASK 4: COLOUR FILLS ══ -->
+  <div class="section-card">
+    <div class="section-header task-4">
+      <div class="section-num">4</div>
+      <div class="section-title"><h2>Colour Fills 🎨</h2><p>Use FILLED and SETPENCOLOR to bring your house to life</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        Wrap your shape code inside <strong>FILLED "colour [...]</strong> to fill it with colour. You can also use <strong>SETPENCOLOR x</strong> to change the outline colour.
+      </div>
+
+      <div class="cmd-ref">
+        <table>
+          <tr><th>Colour name</th><th>Number code</th></tr>
+          <tr><td>"red</td><td>4</td></tr>
+          <tr><td>"blue</td><td>1</td></tr>
+          <tr><td>"green</td><td>2</td></tr>
+          <tr><td>"yellow</td><td>6</td></tr>
+          <tr><td>"orange</td><td>14</td></tr>
+          <tr><td>"brown</td><td>8</td></tr>
+          <tr><td>"white</td><td>7</td></tr>
+          <tr><td>"gray</td><td>15</td></tr>
+        </table>
+      </div>
+
+      <p><strong>Example — a red filled square:</strong></p>
+      <div class="code-block">
+        <span class="keyword">filled</span> <span class="num">"red</span> [ <span class="keyword">repeat</span> <span class="num">4</span> [ <span class="keyword">fd</span> <span class="num">100</span> <span class="keyword">rt</span> <span class="num">90</span> ] ]
+      </div>
+
+      <button class="hint-toggle" onclick="toggleHint('hint4')">💡 Hint</button>
+      <div class="hint-box" id="hint4">
+        Wrap the <em>entire</em> shape code in square brackets after the colour word:<br>
+        <code>filled "brown [ fd 40 rt 90 fd 25 rt 90 fd 40 rt 90 fd 25 ]</code><br>
+        Put your PU/PD positioning <em>before</em> the filled command, not inside it.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TASK 5: PROCEDURES ══ -->
+  <div class="section-card">
+    <div class="section-header task-5">
+      <div class="section-num">5</div>
+      <div class="section-title"><h2>Procedures 🔧</h2><p>Refactor your code — wrap each part in a named procedure</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        Last lesson you learnt that <strong>repeat</strong> cuts down repeated code. <strong>Procedures</strong> go one step further — you give a chunk of code a name and call it whenever you need it. This is called <strong>refactoring</strong>.
+      </div>
+
+      <div class="code-block">
+        <span class="comment">; Template for a procedure:</span><br>
+        <span class="keyword">to</span> <span style="color:#dcdcaa">procedurename</span><br>
+        &nbsp; <span class="comment">; your code goes here</span><br>
+        <span class="keyword">end</span><br><br>
+        <span class="comment">; Call it by just typing its name:</span><br>
+        <span style="color:#dcdcaa">procedurename</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ EXTENSION ══ -->
+  <div class="section-card">
+    <div class="section-header task-ext">
+      <div class="section-num">⭐</div>
+      <div class="section-title"><h2>Extension: Garden Scene 🌳☀️</h2><p>If you finish everything — design your own scene</p></div>
+    </div>
+    <div class="section-body">
+      <div class="task-intro">
+        <strong>Challenge:</strong> Turn your house into a full scene. Add elements below — each as its own procedure — then combine them with your <code>house</code> procedure.
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1rem 0;">
+        <div style="border-radius:10px; padding:1rem; background:var(--light); text-align:center; font-size:.9rem;">
+          🌳 <strong>Tree</strong><br><small>Brown trunk (rectangle) + green circle (repeat 360 [fd 1 rt 1])</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#fff3cd; text-align:center; font-size:.9rem;">
+          ☀️ <strong>Sun</strong><br><small>Use repeat 36 [fd 5 rt 10] for a circle with rays</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#f8d7da; text-align:center; font-size:.9rem;">
+          🌸 <strong>Flowers</strong><br><small>Repeat a petal shape using a procedure + repeat</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#d4edda; text-align:center; font-size:.9rem;">
+          🏡 <strong>Garden path</strong><br><small>Rectangles leading to the door</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#cce5ff; text-align:center; font-size:.9rem;">
+          ☁️ <strong>Clouds</strong><br><small>Overlapping circles using PU to reposition</small>
+        </div>
+        <div style="border-radius:10px; padding:1rem; background:#e2d9f3; text-align:center; font-size:.9rem;">
+          🚗 <strong>Car</strong><br><small>Two rectangles + two circles (wheels)</small>
+        </div>
+      </div>
+
+      <div class="scaffold" style="border-color:#7f8c8d; background:#f8f9fa;">
+        <h3 style="color:#495057;">🧠 Extension Planning</h3>
+        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
+        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
+        <input class="write-line" type="text" placeholder="Procedure name: ___  |  What it draws: ___">
+        <input class="write-line" type="text" placeholder="My 'scene' procedure will call: house, ___, ___, ___">
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleHint(id) {
+    const box = document.getElementById(id);
+    box.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
